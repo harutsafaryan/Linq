@@ -10,7 +10,7 @@ namespace Linq
 {
     public static class _Enumerable
     {
-        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static IEnumerable<TSource> _Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (predicate == null) throw new ArgumentNullException("predicate");
@@ -20,14 +20,14 @@ namespace Linq
             return new WhereEnumerableIterator<TSource>(source, predicate);
         }
 
-        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
+        public static IEnumerable<TResult> _Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (selector == null) throw new ArgumentNullException("predicate");
-            return SelectIterator<TSource, TResult>(source, selector);
+            return _SelectIterator<TSource, TResult>(source, selector);
         }
 
-        static IEnumerable<TResult> SelectIterator<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
+        static IEnumerable<TResult> _SelectIterator<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, int, TResult> selector)
         {
             int index = -1;
             foreach (TSource element in source)
@@ -37,44 +37,44 @@ namespace Linq
             }
         }
 
-        static Func<TSource, TResult> CombineSelectors<TSource, TMiddle, TResult>(Func<TSource, TMiddle> selector1, Func<TMiddle, TResult> selector2)
+        static Func<TSource, TResult> _CombineSelectors<TSource, TMiddle, TResult>(Func<TSource, TMiddle> selector1, Func<TMiddle, TResult> selector2)
         {
             return x => selector2(selector1(x));
         }
 
-        static Func<TSource, bool> CombinePredicates<TSource>(Func<TSource, bool> predicate1, Func<TSource, bool> predicate2)
+        static Func<TSource, bool> _CombinePredicates<TSource>(Func<TSource, bool> predicate1, Func<TSource, bool> predicate2)
         {
             return x => predicate1(x) && predicate2(x);
         }
 
-        public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, int count)
+        public static IEnumerable<TSource> _Take<TSource>(this IEnumerable<TSource> source, int count)
         {
             if (source == null) throw new ArgumentNullException("source");
             return TakeIterator<TSource>(source, count);
         }
 
-        public static IEnumerable<TSource> TakeWhile<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static IEnumerable<TSource> _TakeWhile<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (predicate == null) throw new ArgumentNullException("predicate");
             return TakeWhileIterator<TSource>(source, predicate);
         }
 
-        public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        public static IEnumerable<TSource> _Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return UnionIterator<TSource>(first, second, null);
+            return _UnionIterator<TSource>(first, second, null);
         }
 
-        public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        public static IEnumerable<TSource> _Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return UnionIterator<TSource>(first, second, comparer);
+            return _UnionIterator<TSource>(first, second, comparer);
         }
 
-        static IEnumerable<TSource> UnionIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        static IEnumerable<TSource> _UnionIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             Set<TSource> set = new Set<TSource>(comparer);
             foreach (TSource element in first)
@@ -82,35 +82,35 @@ namespace Linq
             foreach (TSource element in second)
                 if (set.Add(element)) yield return element;
         }
-        public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        public static IEnumerable<TSource> _Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return IntersectIterator<TSource>(first, second, null);
+            return _IntersectIterator<TSource>(first, second, null);
         }
 
-        public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        public static IEnumerable<TSource> _Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return IntersectIterator<TSource>(first, second, comparer);
+            return _IntersectIterator<TSource>(first, second, comparer);
         }
 
-        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        public static IEnumerable<TSource> _Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return ExceptIterator<TSource>(first, second, null);
+            return _ExceptIterator<TSource>(first, second, null);
         }
 
-        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        public static IEnumerable<TSource> _Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
-            return ExceptIterator<TSource>(first, second, comparer);
+            return _ExceptIterator<TSource>(first, second, comparer);
         }
 
-        static IEnumerable<TSource> ExceptIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        static IEnumerable<TSource> _ExceptIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             Set<TSource> set = new Set<TSource>(comparer);
             foreach (TSource element in second) set.Add(element);
@@ -118,26 +118,26 @@ namespace Linq
                 if (set.Add(element)) yield return element;
         }
 
-        public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<TSource> _Reverse<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null) throw new ArgumentNullException("source");
-            return ReverseIterator<TSource>(source);
+            return _ReverseIterator<TSource>(source);
         }
 
-        static IEnumerable<TSource> ReverseIterator<TSource>(IEnumerable<TSource> source)
+        static IEnumerable<TSource> _ReverseIterator<TSource>(IEnumerable<TSource> source)
         {
             Buffer<TSource> buffer = new Buffer<TSource>(source);
             for (int i = buffer.count - 1; i >= 0; i--) yield return buffer.items[i];
         }
 
-        static IEnumerable<TSource> IntersectIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        static IEnumerable<TSource> _IntersectIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             Set<TSource> set = new Set<TSource>(comparer);
             foreach (TSource element in second) set.Add(element);
             foreach (TSource element in first)
                 if (set.Remove(element)) yield return element;
         }
-        public static TSource First<TSource>(this IEnumerable<TSource> source)
+        public static TSource _First<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null) throw new ArgumentNullException("source");
             IList<TSource> list = source as IList<TSource>;
@@ -155,7 +155,7 @@ namespace Linq
             throw new Exception();
         }
 
-        public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static TSource _First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (predicate == null) throw new ArgumentNullException("predicate");
@@ -166,7 +166,7 @@ namespace Linq
             throw new Exception();
         }
 
-        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        public static TSource _FirstOrDefault<TSource>(this IEnumerable<TSource> source)
         {
             if (source == null) throw new ArgumentNullException("source");
             IList<TSource> list = source as IList<TSource>;
@@ -184,7 +184,7 @@ namespace Linq
             return default(TSource);
         }
 
-        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static TSource _FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             if (source == null) throw new ArgumentNullException ("source");
             if (predicate == null) throw new ArgumentNullException("predicate");
@@ -296,7 +296,7 @@ namespace Linq
 
             public override IEnumerable<TSource> Where(Func<TSource, bool> predicate)
             {
-                return new WhereArrayIterator<TSource>(source, CombinePredicates(this.predicate, predicate));
+                return new WhereArrayIterator<TSource>(source, _CombinePredicates(this.predicate, predicate));
             }
         }
 
@@ -348,7 +348,7 @@ namespace Linq
 
             public override IEnumerable<TSource> Where(Func<TSource, bool> predicate)
             {
-                return new WhereListIterator<TSource>(source, CombinePredicates(this.predicate, predicate));
+                return new WhereListIterator<TSource>(source, _CombinePredicates(this.predicate, predicate));
             }
         }
         class WhereSelectListIterator<TSource, TResult> : Iterator<TResult>
@@ -396,7 +396,7 @@ namespace Linq
 
             public override IEnumerable<TResult2> Select<TResult2>(Func<TResult, TResult2> selector)
             {
-                return new WhereSelectListIterator<TSource, TResult2>(source, predicate, CombineSelectors(this.selector, selector));
+                return new WhereSelectListIterator<TSource, TResult2>(source, predicate, _CombineSelectors(this.selector, selector));
             }
 
             public override IEnumerable<TResult> Where(Func<TResult, bool> predicate)
@@ -460,7 +460,7 @@ namespace Linq
 
             public override IEnumerable<TSource> Where(Func<TSource, bool> predicate)
             {
-                return new WhereEnumerableIterator<TSource>(source, CombinePredicates(this.predicate, predicate));
+                return new WhereEnumerableIterator<TSource>(source, _CombinePredicates(this.predicate, predicate));
             }
         }
 
@@ -504,7 +504,7 @@ namespace Linq
 
             public override IEnumerable<TResult2> Select<TResult2>(Func<TResult, TResult2> selector)
             {
-                return new WhereSelectArrayIterator<TSource, TResult2>(source, predicate, CombineSelectors(this.selector, selector));
+                return new WhereSelectArrayIterator<TSource, TResult2>(source, predicate, _CombineSelectors(this.selector, selector));
             }
 
             public override IEnumerable<TResult> Where(Func<TResult, bool> predicate)
@@ -564,7 +564,7 @@ namespace Linq
 
             public override IEnumerable<TResult2> Select<TResult2>(Func<TResult, TResult2> selector)
             {
-                return new WhereSelectEnumerableIterator<TSource, TResult2>(source, predicate, CombineSelectors(this.selector, selector));
+                return new WhereSelectEnumerableIterator<TSource, TResult2>(source, predicate, _CombineSelectors(this.selector, selector));
             }
 
             public override IEnumerable<TResult> Where(Func<TResult, bool> predicate)
